@@ -1,0 +1,71 @@
+﻿using System;
+using System.IO;
+using System.Runtime.InteropServices.ComTypes;
+using System.Security.Cryptography;
+
+
+//Encrypt strings to arrays of bytes, but no way to decrypt them
+
+namespace MvcWarehouse.User
+{
+    public static class Encryption
+    {
+
+        public static byte[] Encrypt(string original)
+        {
+
+            byte[] encrypted;
+
+            using (Aes myAes = Aes.Create())
+            {
+
+                // Encrypt the string to an array of bytes.
+                encrypted = EncryptStringToBytes_Aes(original, myAes.Key, myAes.IV);
+            }
+
+                return encrypted;
+        }
+
+        public static byte[] EncryptStringToBytes_Aes(string plainText, byte[] Key, byte[] IV)
+        {
+            // Check arguments.
+            if (plainText == null || plainText.Length <= 0)
+                throw new ArgumentNullException("plainText");
+            if (Key == null || Key.Length <= 0)
+                throw new ArgumentNullException("Key");
+            if (IV == null || IV.Length <= 0)
+                throw new ArgumentNullException("IV");
+            byte[] encrypted;
+            // Create an Aes object
+            // with the specified key and IV.
+            using (Aes aesAlg = Aes.Create())
+            {
+                aesAlg.Key = Key;
+                aesAlg.IV = IV;
+
+                // Create a decrytor to perform the stream transform.
+                ICryptoTransform encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
+
+                // Create the streams used for encryption.
+                using (MemoryStream msEncrypt = new MemoryStream())
+                {
+                    using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
+                    {
+                        using (StreamWriter swEncrypt = new StreamWriter(csEncrypt))
+                        {
+
+                            //Write all data to the stream.
+                            swEncrypt.Write(plainText);
+                        }
+                        encrypted = msEncrypt.ToArray();
+                    }
+                }
+            }
+
+
+            // Return the encrypted bytes from the memory stream.
+            return encrypted;
+        }
+        
+    }
+}

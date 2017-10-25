@@ -3,7 +3,7 @@ namespace MvcWarehouse.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Initial : DbMigration
+    public partial class init : DbMigration
     {
         public override void Up()
         {
@@ -20,10 +20,20 @@ namespace MvcWarehouse.Migrations
                     })
                 .PrimaryKey(t => t.ArticleNumber);
             
+            CreateTable(
+                "dbo.ShopUsers",
+                c => new
+                    {
+                        Email = c.String(nullable: false, maxLength: 128),
+                        Password = c.Binary(),
+                    })
+                .PrimaryKey(t => t.Email);
+            
         }
         
         public override void Down()
         {
+            DropTable("dbo.ShopUsers");
             DropTable("dbo.StockItems");
         }
     }

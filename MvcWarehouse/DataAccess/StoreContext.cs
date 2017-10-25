@@ -12,7 +12,7 @@ namespace MvcWarehouse.DataAccess
     {
 
         public DbSet<Models.StockItem> Items { get; set; }
-        //public DbSet<User.ShopUser> Users { get; set; }
+        public DbSet<User.ShopUser> Users { get; set; }
 
         public StoreContext() : base("DefaultConnection")
         {

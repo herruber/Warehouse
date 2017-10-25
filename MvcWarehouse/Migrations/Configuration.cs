@@ -4,6 +4,7 @@ namespace MvcWarehouse.Migrations
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
+    using System.Security.Cryptography;
 
     internal sealed class Configuration : DbMigrationsConfiguration<MvcWarehouse.DataAccess.StoreContext>
     {
@@ -40,9 +41,15 @@ namespace MvcWarehouse.Migrations
                 new Models.StockItem { ArticleNumber = 8, Name = "Wooden Clogs", Description = "Some wooden clogs for your needs", Price = 30, Quantity = 100, ShelfPosition = "r3, 6" }
                 );
 
-            //context.Users.AddOrUpdate(
-                    
-            //    );
+            string originalpass = "123";
+
+            context.Users.AddOrUpdate(
+                    e => e.Email,
+                    new User.ShopUser { Email = "robertnyquist@hotmail.com", uType = User.ShopUser.UserType.Admin, Password = User.Encryption.Encrypt(originalpass) } //Password is an array of bytes
+            );
+
+
+
         }
     }
 }

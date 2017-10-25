@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using MvcWarehouse.User;
 
 namespace MvcWarehouse.Controllers
 {
@@ -15,7 +16,7 @@ namespace MvcWarehouse.Controllers
 
 
         //The form is filled out in the index page based on options, the variables are matched from the form to Index method here
-        [OutputCache(Duration=60)]
+
         public ActionResult Index(string search = null, int checkname = 0, int checkprice = 0, int checkanumber = 0, int checkall = 0)
         {
             IEnumerable<Models.StockItem> result;
@@ -112,6 +113,39 @@ namespace MvcWarehouse.Controllers
     
         public ActionResult Contact()
         {
+            return View();
+        }
+
+        
+        public ActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Register(string email = null, string password = null)
+        {
+            if (email != null && password != null)
+            {
+                Rep.AddUser(email, Encryption.Encrypt(password));
+            }
+
+            return View();
+        }
+
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Login(string email = null, string password = null)
+        {
+            if (email != null && password != null)
+            {
+                Rep.Auth(email, Encryption.Encrypt(password));
+            }
+            
             return View();
         }
     }

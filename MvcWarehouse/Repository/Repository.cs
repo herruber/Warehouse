@@ -85,5 +85,37 @@ namespace MvcWarehouse.Repository
             sC.Items.Remove(item);
             sC.SaveChanges();
         }
+
+        public void AddUser(string email, byte[] password)
+        {
+            User.ShopUser tempuser = new User.ShopUser();
+            tempuser.Email = email;
+            tempuser.Password = password;
+            tempuser.uType = User.ShopUser.UserType.Customer;
+
+            sC.Users.Add(tempuser);
+            sC.SaveChanges();
+        }
+
+        public void Auth(string email, byte[] password)
+        {
+
+            var user = sC.Users.FirstOrDefault(i => i.Email == email); //Compares two arrays
+
+
+            if (Enumerable.SequenceEqual(user.Password, password))
+            {
+
+            }
+
+            if (user != null)
+            {
+                //Auth success
+            }
+            else
+            {
+                //
+            }
+        }
     }
 }

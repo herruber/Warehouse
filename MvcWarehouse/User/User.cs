@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -7,8 +8,9 @@ namespace MvcWarehouse.User
 {
     public class ShopUser
     {
+        [Key]
         public string Email { get; set; }
-        public string Password { get; set; }
+        public byte[] Password { get; set; }
         
         public enum UserType
         {
@@ -16,7 +18,7 @@ namespace MvcWarehouse.User
             Admin
         }
 
-        UserType usertype = UserType.Customer;
+        public UserType uType { get; set; }
 
         public Cart cart = new Cart();
 
