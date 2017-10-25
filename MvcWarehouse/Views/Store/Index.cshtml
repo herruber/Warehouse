@@ -1,0 +1,58 @@
+﻿@model IEnumerable<MvcWarehouse.Models.StockItem>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<form method="get">
+    <label><input type="checkbox" name="checkname" value="1">Name</label>
+    <label><input type="checkbox" name="checkprice" value="1">Price</label>
+    <label><input type="checkbox" name="checkanumber" value="1">Article Number</label>
+    <label><input type="checkbox" name="checkall" checked="checked" value="1">All</label>
+    <br />
+
+    <input type="search" name="search" />
+    <input type="submit" value="Search" />
+  
+
+</form>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Quantity)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ArticleNumber }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ArticleNumber }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.ArticleNumber })
+        </td>
+    </tr>
+}
+
+</table>
