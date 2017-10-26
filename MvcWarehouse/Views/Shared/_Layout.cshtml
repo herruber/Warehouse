@@ -25,6 +25,10 @@
                     <li>@Html.ActionLink("Contact", "Contact", "Store", null, new { @class = "animated" })</li>
                     <li>@Html.ActionLink("Register", "Register", "Store", null, new { @class = "animated" })</li>
                     <li>@Html.ActionLink("Login", "Login", "Store", null, new { @class = "animated" })</li>
+
+                    <li>@Html.ActionLink("Cart", "Cart", "Store", null, new { @class = "animated" })</li>
+                    @*<li>Items: @MvcWarehouse.Repository.Repository.</li>*@
+                    <li><div id="loggedinuser">Welcome @Session["user"].ToString() !</div></li>
                 </ul>
             </div>
         </div>

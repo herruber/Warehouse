@@ -76,6 +76,12 @@ namespace MvcWarehouse.Controllers
             return View();
         }
 
+        public ActionResult Remove(int id)
+        {
+            Rep.RemoveFromCart(id);
+            return RedirectToAction("Cart");
+        }
+
         [HttpGet]
         public ActionResult Delete(int id)
         {
@@ -127,7 +133,7 @@ namespace MvcWarehouse.Controllers
         {
             if (email != null && password != null)
             {
-                Rep.AddUser(email, Encryption.Encrypt(password));
+                Rep.AddUser(email, password);
             }
 
             return View();
@@ -143,10 +149,23 @@ namespace MvcWarehouse.Controllers
         {
             if (email != null && password != null)
             {
-                Rep.Auth(email, Encryption.Encrypt(password));
+                Rep.Auth(email, password);
             }
-            
+
             return View();
+        }
+
+        public ActionResult Buy(int id)
+        {
+            Rep.Buy(id);
+            return RedirectToAction("Index", "Store");
+        }
+
+        public ActionResult Cart()
+        {
+            var result = Rep.GetCart();
+
+            return View(result);
         }
     }
 }

@@ -86,30 +86,128 @@ namespace MvcWarehouse.Repository
             sC.SaveChanges();
         }
 
-        public void AddUser(string email, byte[] password)
+        User.ShopUser GetUser()
+        {
+            string email = HttpContext.Current.Session["user"].ToString();
+
+            return sC.Users.FirstOrDefault(e => e.Email == email);
+
+        }
+
+        public void Buy(int id)
+        {
+            var cuser = GetUser();
+
+            if (sC.Items.FirstOrDefault(e => e.ArticleNumber == id).Quantity > 0) //If the item quantity is greater than 0
+            {
+
+                if (HttpContext.Current.Session["user"] != "unregistered" && HttpContext.Current.Session["user"] != null)
+                {
+                    cuser.Cart += "#" + id; //# = item separator, ¤ = purchase separation
+                    sC.SaveChanges();
+                }
+            }
+        }
+
+        public int CartSize()
+        {
+            var cuser = GetUser();
+
+            string tempcart = cuser.Cart;
+
+            string[] purchases = tempcart.Split('¤'); //Split purchases, get last one
+            string cPurchase = purchases[purchases.Length - 1];
+            string[] articles = cPurchase.Split('#');
+
+
+            return articles.Length;
+        }
+
+        public void RemoveFromCart(int id)
+        {
+
+            User.ShopUser cuser = GetUser();
+
+            string idstr = id.ToString();
+
+            string tempcart = cuser.Cart;
+
+            string[] purchases = tempcart.Split('¤'); //Split purchases, get last one
+            string cPurchase = purchases[purchases.Length - 1];
+
+            //string[] items = purchases[purchases.Length - 1].Split('#'); //Split for each item
+
+            for (int i = 0; i < cPurchase.Length; i++)
+            {
+                if (cPurchase[i].ToString() == idstr)
+                {
+                    tempcart = tempcart.Remove(i, 2); //¤ + cPurchase 
+
+                    cuser.Cart = tempcart;
+                    sC.SaveChanges();
+
+                    break;
+                }                
+            }
+        }
+
+        public IEnumerable<Models.StockItem> GetCart()
+        {
+            List<Models.StockItem> temp = new List<Models.StockItem>();
+
+            string[] purchases = GetUser().Cart.Split('¤'); //Split purchases, get last one
+
+            string[] items = purchases[purchases.Length - 1].Split('#'); //Split for each item
+
+            for (int i = 0; i < items.Length; i++)
+            {
+                int id = -1;
+
+                try
+                {
+                    id = int.Parse(items[i]);
+                    temp.Add(sC.Items.FirstOrDefault(e => e.ArticleNumber == id)); //Parse item i as an int, article number
+                }
+                catch (Exception ef)
+                {
+
+                    Console.WriteLine("The item article id was not parsable to an int: " +ef);
+                }
+                
+            }
+
+            return temp;
+        }
+
+        public void AddUser(string email, string password)
         {
             User.ShopUser tempuser = new User.ShopUser();
             tempuser.Email = email;
             tempuser.Password = password;
             tempuser.uType = User.ShopUser.UserType.Customer;
+            tempuser.Cart = "¤";
+            
 
             sC.Users.Add(tempuser);
             sC.SaveChanges();
         }
 
-        public void Auth(string email, byte[] password)
+        public void Auth(string email, string password)
         {
 
-            var user = sC.Users.FirstOrDefault(i => i.Email == email); //Compares two arrays
+            var user = sC.Users.FirstOrDefault(i => i.Email == email);
 
 
-            if (Enumerable.SequenceEqual(user.Password, password))
-            {
-
-            }
-
+ 
             if (user != null)
             {
+                if (user.Password.Equals(password))
+                {
+                    HttpContext context = HttpContext.Current;
+                    context.Session["user"] = user.Email;
+
+                    context.Session.Contents.Add("usertype", user.uType); //Set session usertype
+                }
                 //Auth success
             }
             else

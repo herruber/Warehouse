@@ -7,13 +7,13 @@ namespace MvcWarehouse.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class init : IMigrationMetadata
+    public sealed partial class stringcart : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(init));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(stringcart));
         
         string IMigrationMetadata.Id
         {
-            get { return "201710252028006_init"; }
+            get { return "201710261237399_stringcart"; }
         }
         
         string IMigrationMetadata.Source

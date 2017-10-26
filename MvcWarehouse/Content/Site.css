@@ -59,6 +59,13 @@ tr:hover
     background-color:rgba(182, 255, 0, .33);
 }
 
+#loggedinuser
+{
+
+    text-align:center;
+    color:rgb(182, 255, 0);
+}
+
 @keyframes linkanim
 {
     0% {background-color:rgba(182, 255, 0, 0);}

@@ -16,16 +16,24 @@ namespace MvcWarehouse.User
             price = 0;
         }
 
-        public void RemoveItem(int articlenumber)
+        public void RemoveItem(int articlenumber, DataAccess.StoreContext sc)
         {
-            var item = cartItems.FirstOrDefault(e => e.ArticleNumber == articlenumber);
-            price -= item.Price;
-            cartItems.Remove(item);
+
+            foreach (var item in cartItems)
+            {
+                if (item.ArticleNumber == articlenumber)
+                {
+                    price -= item.Price;
+                    cartItems.Remove(item);
+                    
+                }
+            }
+           
         }
 
-        public void AddItem(int articlenumber)
+        public void AddItem(int articlenumber, DataAccess.StoreContext sc)
         {
-            var item = cartItems.FirstOrDefault(e => e.ArticleNumber == articlenumber);
+            var item = sc.Items.FirstOrDefault(e => e.ArticleNumber == articlenumber);
             price += item.Price;
             cartItems.Add(item);
         }

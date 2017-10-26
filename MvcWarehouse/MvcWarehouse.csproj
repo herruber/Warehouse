@@ -125,13 +125,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201710252028006_init.cs" />
-    <Compile Include="Migrations\201710252028006_init.Designer.cs">
-      <DependentUpon>201710252028006_init.cs</DependentUpon>
+    <Compile Include="Migrations\201710260904333_test2.cs" />
+    <Compile Include="Migrations\201710260904333_test2.Designer.cs">
+      <DependentUpon>201710260904333_test2.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201710252142421_up2.cs" />
-    <Compile Include="Migrations\201710252142421_up2.Designer.cs">
-      <DependentUpon>201710252142421_up2.cs</DependentUpon>
+    <Compile Include="Migrations\201710261237399_stringcart.cs" />
+    <Compile Include="Migrations\201710261237399_stringcart.Designer.cs">
+      <DependentUpon>201710261237399_stringcart.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\StockItem.cs" />
@@ -139,7 +139,7 @@
     <Compile Include="Repository\Repository.cs" />
     <Compile Include="User\Cart.cs" />
     <Compile Include="User\Encryption.cs" />
-    <Compile Include="User\User.cs" />
+    <Compile Include="User\ShopUser.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -192,6 +192,7 @@
     <Content Include="Views\Store\Contact.cshtml" />
     <Content Include="Views\Store\Register.cshtml" />
     <Content Include="Views\Store\Login.cshtml" />
+    <Content Include="Views\Store\Cart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -204,11 +205,11 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201710252028006_init.resx">
-      <DependentUpon>201710252028006_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201710260904333_test2.resx">
+      <DependentUpon>201710260904333_test2.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201710252142421_up2.resx">
-      <DependentUpon>201710252142421_up2.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201710261237399_stringcart.resx">
+      <DependentUpon>201710261237399_stringcart.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

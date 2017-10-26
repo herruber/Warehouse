@@ -2,6 +2,14 @@
 
 @{
     ViewBag.Title = "Index";
+
+    //IF there is no set session, create an unregistered user to hold a temporary cart for this session
+    if (Session["usertype"] == null)
+    {
+        HttpContext.Current.Session["user"] = "unregistered";
+
+        HttpContext.Current.Session.Contents.Add("usertype", MvcWarehouse.User.ShopUser.UserType.Customer);
+    }
 }
 
 <h2>Index</h2>
@@ -48,9 +56,30 @@
             @Html.DisplayFor(modelItem => item.Price)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ArticleNumber }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ArticleNumber }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.ArticleNumber })
+
+            @{
+                    if (Session["usertype"] != null)
+                    {
+                        if (Session["usertype"].Equals(MvcWarehouse.User.ShopUser.UserType.Admin))
+                        {
+                            @Html.ActionLink("Edit", "Edit", new { id = item.ArticleNumber })
+                                @Html.ActionLink("Details", "Details", new { id = item.ArticleNumber })
+                                @Html.ActionLink("Delete", "Delete", new { id = item.ArticleNumber })
+                        }
+
+                        if (Session["usertype"].Equals(MvcWarehouse.User.ShopUser.UserType.Customer))
+                        {
+                            @Html.ActionLink("Buy", "Buy", new { id = item.ArticleNumber })
+                            @*@Html.ActionLink("Details", "Details", new { id = item.ArticleNumber })
+                            @Html.ActionLink("Delete", "Delete", new { id = item.ArticleNumber })*@
+                        }
+                    }
+
+
+}
+
+            
+
         </td>
     </tr>
 }

@@ -45,7 +45,7 @@ namespace MvcWarehouse.Migrations
 
             context.Users.AddOrUpdate(
                     e => e.Email,
-                    new User.ShopUser { Email = "robertnyquist@hotmail.com", uType = User.ShopUser.UserType.Admin, Password = User.Encryption.Encrypt(originalpass) } //Password is an array of bytes
+                    new User.ShopUser { Email = "robertnyquist@hotmail.com", Cart = "¤", uType = User.ShopUser.UserType.Admin, Password = originalpass } //Password is an array of bytes
             );
 
 

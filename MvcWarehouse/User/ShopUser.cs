@@ -10,7 +10,8 @@ namespace MvcWarehouse.User
     {
         [Key]
         public string Email { get; set; }
-        public byte[] Password { get; set; }
+        public string Password { get; set; }
+        public string Cart { get; set; }
         
         public enum UserType
         {
@@ -20,8 +21,18 @@ namespace MvcWarehouse.User
 
         public UserType uType { get; set; }
 
-        public Cart cart = new Cart();
+        public ShopUser()
+        {
 
+        }
+
+        public ShopUser(string email, string password, string cart, UserType utype)
+        {
+            Email = email;
+            Password = password;
+            uType = utype;
+            Cart = cart;
+        }
 
     }
 }
