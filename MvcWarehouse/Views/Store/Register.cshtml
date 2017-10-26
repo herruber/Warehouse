@@ -1,16 +1,32 @@
 ﻿
 @{
     ViewBag.Title = "Register";
+    //IF there is no set session, create an unregistered user to hold a temporary cart for this session
+    if (Session["usertype"] == null)
+    {
+        HttpContext.Current.Session["user"] = "unregistered";
+
+        HttpContext.Current.Session["usertype"] = MvcWarehouse.User.ShopUser.UserType.Visitor;
+    }
 }
 
 <h2>Register</h2>
 
 <form method="post">
 
-    <label><input type="text" name="email" />:Email</label>
+    <table class="userform">
+        <tr>
+            <td><adress>Email </adress></td>
+            <td><input type="email" name="email" required/></td>
+        </tr>
 
-    <label><input type="password" name="password" />:Password</label>
+        <tr>
+            <td><adress>Password </adress></td>
+            <td><input type="password" name="password" pattern=".{6,}" required/></td>
+        </tr>
 
+    </table>
+    <hr />
     <input type="submit" value="Create" id="usersubmit" />
 
 </form>

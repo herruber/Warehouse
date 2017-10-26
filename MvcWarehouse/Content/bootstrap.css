@@ -34,6 +34,7 @@ nav,
 section,
 summary {
   display: block;
+  text-align:center;
 }
 
 audio,

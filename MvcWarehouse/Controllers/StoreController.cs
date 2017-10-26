@@ -163,9 +163,17 @@ namespace MvcWarehouse.Controllers
 
         public ActionResult Cart()
         {
-            var result = Rep.GetCart();
-
-            return View(result);
+            IEnumerable<Models.StockItem> result;
+            
+            if (Rep.GetUser() != null && Rep.GetUser().uType != ShopUser.UserType.Visitor) //If a user was returned and it is not a visitor allow cart access
+            {
+                result = Rep.GetCart();
+                return View(result);
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
         }
     }
 }

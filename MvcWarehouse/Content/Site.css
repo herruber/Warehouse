@@ -22,6 +22,8 @@ input,
 select,
 textarea {
     max-width: 280px;
+    border-radius:8px;
+    background-color:rgba(182, 255, 0, 0.2);
 }
 
 input[type=checkbox]
@@ -49,19 +51,30 @@ a:hover
     animation-iteration-count:infinite;
 }*/
 
-tr:nth-child(even)
+/*tr:nth-child(even)
 {
     background-color:rgba(128, 128, 128, 0.2);
-}
+}*/
 
 tr:hover
 {
     background-color:rgba(182, 255, 0, .33);
 }
 
+.userform
+{
+    width:50%;
+}
+
+.userform > tr
+{
+    padding:14px;
+    margin:10px;
+}
+
 #loggedinuser
 {
-
+    padding-top:14px;
     text-align:center;
     color:rgb(182, 255, 0);
 }
@@ -69,7 +82,7 @@ tr:hover
 @keyframes linkanim
 {
     0% {background-color:rgba(182, 255, 0, 0);}
-    20% {background-color:rgba(182, 255, 0, .8);}
+    20% {background-color:rgba(182, 255, 0, .2);}
     100% {background-color:rgba(182, 255, 0, 0);}
 }
 

@@ -2,6 +2,13 @@
 
 @{
     ViewBag.Title = "Edit";
+    //IF there is no set session, create an unregistered user to hold a temporary cart for this session
+    if (Session["usertype"] == null)
+    {
+        HttpContext.Current.Session["user"] = "unregistered";
+
+        HttpContext.Current.Session["usertype"] = MvcWarehouse.User.ShopUser.UserType.Visitor;
+    }
 }
 
 <h2>Edit</h2>

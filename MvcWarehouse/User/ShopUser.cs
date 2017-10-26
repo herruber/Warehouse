@@ -16,7 +16,8 @@ namespace MvcWarehouse.User
         public enum UserType
         {
             Customer,
-            Admin
+            Admin,
+            Visitor
         }
 
         public UserType uType { get; set; }

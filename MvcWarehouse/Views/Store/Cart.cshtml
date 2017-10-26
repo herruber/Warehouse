@@ -1,0 +1,61 @@
+﻿@model IEnumerable<MvcWarehouse.Models.StockItem>
+
+@{
+    ViewBag.Title = "Cart";
+    //IF there is no set session, create an unregistered user to hold a temporary cart for this session... Redirect to index if user does not have a cart
+    if (Session["usertype"] == null || (MvcWarehouse.User.ShopUser.UserType)Session["usertype"] == MvcWarehouse.User.ShopUser.UserType.Visitor)
+    {
+        HttpContext.Current.Session["user"] = "unregistered";
+
+        HttpContext.Current.Session["usertype"] = MvcWarehouse.User.ShopUser.UserType.Visitor;
+
+       Response.Redirect("~/Store/Index");
+    }
+}
+
+<h2>Cart</h2>
+
+@{double sum = 0;}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </th>*@
+        <th></th>
+    </tr>
+
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price) $
+        </td>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.Quantity)
+        </td>*@
+        <td>
+            @Html.ActionLink("Remove", "Remove", new { id=item.ArticleNumber })
+        </td>
+    </tr>
+
+    sum += item.Price;
+}
+
+</table>
+<table class="table">
+    <tr>
+        <th>Price Total</th>
+        <th>@sum $</th>
+    </tr>
+</table>
+

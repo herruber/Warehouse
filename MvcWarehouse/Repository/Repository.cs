@@ -86,9 +86,15 @@ namespace MvcWarehouse.Repository
             sC.SaveChanges();
         }
 
-        User.ShopUser GetUser()
+        public User.ShopUser GetUser()
         {
-            string email = HttpContext.Current.Session["user"].ToString();
+            string email = "";
+
+            if (HttpContext.Current.Session["user"].ToString() != null && HttpContext.Current.Session["user"].ToString() != "")
+            {
+                email = HttpContext.Current.Session["user"].ToString();
+            }
+            
 
             return sC.Users.FirstOrDefault(e => e.Email == email);
 
@@ -101,12 +107,16 @@ namespace MvcWarehouse.Repository
             if (sC.Items.FirstOrDefault(e => e.ArticleNumber == id).Quantity > 0) //If the item quantity is greater than 0
             {
 
-                if (HttpContext.Current.Session["user"] != "unregistered" && HttpContext.Current.Session["user"] != null)
+                if (HttpContext.Current.Session["user"] != null && (User.ShopUser.UserType)HttpContext.Current.Session["usertype"] != User.ShopUser.UserType.Visitor)
                 {
+
                     cuser.Cart += "#" + id; //# = item separator, ¤ = purchase separation
                     sC.SaveChanges();
                 }
             }
+                    
+                    HttpContext.Current.Session["items"] = CartSize();
+                 
         }
 
         public int CartSize()
@@ -119,6 +129,7 @@ namespace MvcWarehouse.Repository
             string cPurchase = purchases[purchases.Length - 1];
             string[] articles = cPurchase.Split('#');
 
+            articles = articles.Where(x => !string.IsNullOrEmpty(x)).ToArray();
 
             return articles.Length;
         }
@@ -149,6 +160,8 @@ namespace MvcWarehouse.Repository
                     break;
                 }                
             }
+
+            HttpContext.Current.Session["items"] = CartSize();
         }
 
         public IEnumerable<Models.StockItem> GetCart()
@@ -175,6 +188,8 @@ namespace MvcWarehouse.Repository
                 }
                 
             }
+
+            HttpContext.Current.Session["items"] = CartSize();
 
             return temp;
         }
@@ -205,8 +220,8 @@ namespace MvcWarehouse.Repository
                 {
                     HttpContext context = HttpContext.Current;
                     context.Session["user"] = user.Email;
-
-                    context.Session.Contents.Add("usertype", user.uType); //Set session usertype
+                    context.Session["items"] = CartSize();
+                    context.Session["usertype"] = user.uType; //Set session usertype
                 }
                 //Auth success
             }
